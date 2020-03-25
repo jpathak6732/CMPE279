@@ -59,7 +59,7 @@ int main(int argc, char const *argv[])
         int userid = setuid(65534);
         if(userid == -1)
         {
-            printf("Error changing user id");
+            printf("Error in changing user id");
             exit(EXIT_FAILURE);
         }
         valread = read( new_socket , buffer, 1024); 
