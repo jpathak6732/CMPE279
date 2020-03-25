@@ -51,9 +51,33 @@ int main(int argc, char const *argv[])
         perror("accept"); 
         exit(EXIT_FAILURE); 
     } 
-    valread = read( new_socket , buffer, 1024); 
-    printf("%s\n",buffer ); 
-    send(new_socket , hello , strlen(hello) , 0 ); 
-    printf("Hello message sent\n"); 
+   int process_id = fork();
+   
+    if (process_id == 0)
+    {
+        // printf("In child process);
+        int userid = setuid(65534);
+        if(userid == -1)
+        {
+            printf("Error changing user id");
+            exit(EXIT_FAILURE);
+        }
+        valread = read( new_socket , buffer, 1024); 
+        printf("%s\n",buffer ); 
+    
+    }
+    else if(process_id > 0)
+    {
+        // printf("In parent process\n");
+        wait(NULL);
+        send(new_socket , hello , strlen(hello) , 0 ); 
+        printf("Hello message sent\n"); 
+    
+    }
+    else
+    {
+        printf("Error in forking the process");
+    }
+    
     return 0; 
 } 
