@@ -64,15 +64,14 @@ int main(int argc, char const *argv[])
         }
         valread = read( new_socket , buffer, 1024); 
         printf("%s\n",buffer ); 
+        send(new_socket , hello , strlen(hello) , 0 ); 
+        printf("Hello message sent\n");  
     
     }
     else if(process_id > 0)
     {
         // printf("In parent process\n");
-        wait(NULL);
-        send(new_socket , hello , strlen(hello) , 0 ); 
-        printf("Hello message sent\n"); 
-    
+        wait(NULL);    
     }
     else
     {
