@@ -56,7 +56,7 @@ int main(int argc, char const *argv[])
     if (process_id == 0)
     {
         // printf("In child process);
-        int userid = setuid(65534);
+        /*int userid = setuid(65534);
         if(userid == -1)
         {
             printf("Error in changing user id");
@@ -65,7 +65,17 @@ int main(int argc, char const *argv[])
         valread = read( new_socket , buffer, 1024); 
         printf("%s\n",buffer ); 
         send(new_socket , hello , strlen(hello) , 0 ); 
-        printf("Hello message sent\n");  
+        printf("Hello message sent\n"); 
+        */
+        char child_string[11];
+	    sprintf(child_string, "%d", new_socket);
+        char *args[] = {"./Child", child_string, NULL};
+        
+        if (execvp(args[0], args) < 0) 
+	    {
+        	perror("execvp failed!");
+        	exit(EXIT_FAILURE);
+    	}
     
     }
     else if(process_id > 0)
